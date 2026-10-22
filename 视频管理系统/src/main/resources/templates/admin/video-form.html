@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${video.id} ? '编辑视频' : '新增视频'">视频表单</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h3 th:text="${video.id} ? '编辑视频' : '新增视频'"></h3>
+    <form th:action="@{/admin/video/save}" method="post" th:object="${video}">
+        <input type="hidden" th:field="*{id}">
+        <div class="form-group">
+            <label>标题</label>
+            <input type="text" th:field="*{title}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>封面URL</label>
+            <input type="text" th:field="*{coverUrl}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>分类</label>
+            <select th:field="*{categoryId}" class="form-control">
+                <option value="">请选择分类</option>
+                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>播放量</label>
+            <input type="number" th:field="*{playCount}" class="form-control" value="0">
+        </div>
+        <button type="submit" class="btn btn-primary">保存</button>
+        <a th:href="@{/admin/video/list}" class="btn btn-secondary">返回</a>
+    </form>
+</body>
+</html>

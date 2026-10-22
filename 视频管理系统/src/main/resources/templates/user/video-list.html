@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>视频查询</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h3>视频列表</h3>
+    <div class="mb-2">
+        <a th:href="@{/user/category/list}" class="btn btn-secondary">返回分类</a>
+        <a th:href="@{/logout}" class="btn btn-outline-secondary float-right">退出</a>
+    </div>
+
+    <!-- 搜索与筛选表单 -->
+    <form th:action="@{/user/video/list}" method="get" class="form-inline mb-3">
+        <input type="text" name="keyword" class="form-control mr-2" placeholder="搜索标题..." th:value="${keyword}">
+        <select name="categoryId" class="form-control mr-2">
+            <option value="">全部分类</option>
+            <option th:each="cat : ${categories}"
+                    th:value="${cat.id}"
+                    th:text="${cat.name}"
+                    th:selected="${cat.id == currentCategoryId}"></option>
+        </select>
+        <button type="submit" class="btn btn-primary">查询</button>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr><th>ID</th><th>标题</th><th>分类ID</th><th>播放量</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="video : ${page.content}">
+                <td th:text="${video.id}"></td>
+                <td th:text="${video.title}"></td>
+                <td th:text="${video.categoryId}"></td>
+                <td th:text="${video.playCount}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 分页导航 -->
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, page.totalPages)}"
+                th:classappend="${page.number + 1 == i} ? 'active'">
+                <a class="page-link" th:href="@{/user/video/list(page=${i}, categoryId=${currentCategoryId}, keyword=${keyword})}" th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>

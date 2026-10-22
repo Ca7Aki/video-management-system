@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>视频分类查询</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h3>视频分类列表</h3>
+    <div class="mb-2">
+        <a th:href="@{/user/video/list}" class="btn btn-info">查看视频</a>
+        <a th:href="@{/logout}" class="btn btn-outline-secondary float-right">退出</a>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr><th>ID</th><th>名称</th><th>描述</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="cat : ${categories}">
+                <td th:text="${cat.id}"></td>
+                <td th:text="${cat.name}"></td>
+                <td th:text="${cat.description}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

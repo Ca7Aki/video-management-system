@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h3>视频分类管理</h3>
+    <div class="mb-2">
+        <a th:href="@{/admin/category/add}" class="btn btn-success">新增分类</a>
+        <a th:href="@{/admin/video/list}" class="btn btn-info">管理视频</a>
+        <a th:href="@{/logout}" class="btn btn-outline-secondary float-right">退出</a>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr><th>ID</th><th>名称</th><th>描述</th><th>操作</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="cat : ${page.content}">
+                <td th:text="${cat.id}"></td>
+                <td th:text="${cat.name}"></td>
+                <td th:text="${cat.description}"></td>
+                <td>
+                    <a th:href="@{/admin/category/edit/{id}(id=${cat.id})}" class="btn btn-sm btn-primary">编辑</a>
+                    <a th:href="@{/admin/category/delete/{id}(id=${cat.id})}" class="btn btn-sm btn-danger"
+                       onclick="return confirm('确定删除？')">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- 分页导航 -->
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, page.totalPages)}"
+                th:classappend="${page.number + 1 == i} ? 'active'">
+                <a class="page-link" th:href="@{/admin/category/list(page=${i})}" th:text="${i}"></a>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>
